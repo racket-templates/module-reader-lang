@@ -4,7 +4,6 @@
          data/monad
          data/applicative
          megaparsack
-         megaparsack/text
          "lexer.rkt")
 
 (define (parse-all in
