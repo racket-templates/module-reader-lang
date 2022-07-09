@@ -1,6 +1,5 @@
 #lang scribble/manual
-@require[@for-label[module-reader-lang
-                    racket/base]]
+@require[@for-label[module-reader-lang]]
 
 @title{module-reader-lang}
 @author{dannypsnl}
