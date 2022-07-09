@@ -49,9 +49,11 @@
       (table/p (binary/p base/p (car list-of-op-list))
                (cdr list-of-op-list))))
 (define expression/p
-  (table/p term/p
-           '((* /)
-             (+ -))))
+  (label/p
+   "expression"
+   (table/p term/p
+            '((* /)
+              (+ -)))))
 
 (define let/p
   (do (token/p 'LET)
