@@ -1,6 +1,8 @@
 #lang racket/base
 (provide (rename-out [lang-module-begin #%module-begin])
-         #%top-interaction)
+         #%top-interaction
+         #%app
+         #%datum)
 (require (for-syntax syntax/parse
                      racket/base))
 
@@ -14,11 +16,11 @@
 
 (define-syntax (lang-module-begin stx)
   (syntax-parse stx
-    [(_ . content)
-     (println #'content)
+    [(_ (content ...))
      #`(#%module-begin
-        (module main racket
-          (#%datum . content)))]))
+        content
+        ...
+        (void))]))
 
 ;; splices content of any block as its own top-level group:
 (define-syntax (#%top-interaction stx)
