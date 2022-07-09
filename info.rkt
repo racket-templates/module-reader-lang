@@ -2,6 +2,7 @@
 (define collection "module-reader-lang")
 (define deps '("base"
                "parser-tools-lib"
+               "megaparsack-parser-tools"
                "functional-lib"
                "megaparsack-lib"))
 (define build-deps '("scribble-lib" "racket-doc" "rackunit-lib"))
