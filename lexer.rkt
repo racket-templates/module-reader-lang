@@ -5,8 +5,10 @@
 
 (define-tokens simple [IDENTIFIER NUMBER])
 (define-empty-tokens simple*
-  [OPEN-PAREN CLOSE-PAREN
-              COMMA ASSIGN])
+  [COMMA
+   ASSIGN
+   OPEN-PAREN CLOSE-PAREN
+   + - * /])
 (define-empty-tokens keyword*
   [LET])
 (define simple-lexer
@@ -15,6 +17,10 @@
    [#\) (token-CLOSE-PAREN)]
    [#\, (token-COMMA)]
    [#\= (token-ASSIGN)]
+   [#\+ (token-+)]
+   [#\- (token--)]
+   [#\* (token-*)]
+   [#\/ (token-/)]
    ["let" (token-LET)]
    [(:+ (:or (:/ #\a #\z) (:/ #\A #\Z) #\-))
     (token-IDENTIFIER (string->symbol lexeme))]

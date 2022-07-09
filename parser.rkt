@@ -4,6 +4,7 @@
          data/monad
          data/applicative
          megaparsack
+         megaparsack/text
          "lexer.rkt")
 
 (define (parse-all in
@@ -22,11 +23,35 @@
      [args <- (many/p expression/p #:sep (token/p 'COMMA))]
      (token/p 'CLOSE-PAREN)
      (pure (list* func args)))))
-; an expression can be a number or a function invokation
-(define expression/p
+(define term/p
   (or/p number/p
         identifier/p
         funcall/p))
+
+(define (binary/p high-level/p op-list)
+  (define (op/p)
+    (define (make-op/p op)
+      (do [_ <- (try/p (token/p op))]
+        (pure op)))
+    (apply or/p (map make-op/p op-list)))
+  (do [e <- high-level/p]
+    [es <- (many/p (try/p (do [op <- (op/p)]
+                            [e <- high-level/p]
+                            (pure (list op e)))))]
+    (pure (foldl (λ (op+rhs lhs)
+                   (match op+rhs
+                     [(list op rhs)
+                      #`(#,op #,lhs #,rhs)]))
+                 e es))))
+(define (table/p base/p list-of-op-list)
+  (if (empty? list-of-op-list)
+      base/p
+      (table/p (binary/p base/p (car list-of-op-list))
+               (cdr list-of-op-list))))
+(define expression/p
+  (table/p term/p
+           '((* /)
+             (+ -))))
 
 (define let/p
   (do (token/p 'LET)

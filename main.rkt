@@ -1,6 +1,5 @@
 #lang racket/base
 (provide (rename-out [lang-module-begin #%module-begin])
-         #%app
          #%datum)
 (require (for-syntax syntax/parse
                      racket/base))
@@ -12,10 +11,8 @@
   #:whole-body-readers? #t
   (require "parser.rkt"))
 
-
 (define-syntax (lang-module-begin stx)
   (syntax-parse stx
     [(_ (content ...))
      #`(#%module-begin
-        content
-        ...)]))
+        content ...)]))
