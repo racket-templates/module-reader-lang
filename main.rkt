@@ -1,6 +1,5 @@
 #lang racket/base
 (provide (rename-out [lang-module-begin #%module-begin])
-         #%top-interaction
          #%app
          #%datum)
 (require (for-syntax syntax/parse
@@ -19,14 +18,4 @@
     [(_ (content ...))
      #`(#%module-begin
         content
-        ...
-        (void))]))
-
-;; splices content of any block as its own top-level group:
-(define-syntax (#%top-interaction stx)
-  (syntax-parse stx
-    #:datum-literals (group block)
-    [(form-id . (top form ... (group (block inner-form ...)) . content))
-     #'(form-id . (top form ... inner-form ... . content))]
-    [(_ . (top . content))
-     #'(lang-top . content)]))
+        ...)]))
