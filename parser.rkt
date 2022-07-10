@@ -14,7 +14,9 @@
 
 (define number/p (syntax/p (token/p 'NUMBER)))
 (define identifier/p (syntax/p (token/p 'IDENTIFIER)))
-(define string/p (syntax/p (token/p 'STRING)))
+(define string/p
+  (do [val <- (token/p 'STRING)]
+    (pure (string-trim val "\""))))
 ; a simple function invokation
 (define funcall/p
   (do [func <- identifier/p]
