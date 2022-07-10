@@ -14,6 +14,7 @@
 
 (define number/p (syntax/p (token/p 'NUMBER)))
 (define identifier/p (syntax/p (token/p 'IDENTIFIER)))
+(define string/p (syntax/p (token/p 'STRING)))
 ; a simple function invokation
 (define funcall/p
   (syntax/p
@@ -23,9 +24,10 @@
      (token/p 'CLOSE-PAREN)
      (pure (list* func args)))))
 (define term/p
-  (or/p number/p
+  (or/p (try/p funcall/p)
+        number/p
         identifier/p
-        funcall/p))
+        string/p))
 
 (define (binary/p high-level/p op-list)
   (define (op/p)

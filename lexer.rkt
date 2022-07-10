@@ -3,7 +3,10 @@
 (require (prefix-in : parser-tools/lex-sre)
          parser-tools/lex)
 
-(define-tokens simple [IDENTIFIER NUMBER])
+(define-tokens simple
+  [IDENTIFIER
+   NUMBER
+   STRING])
 (define-empty-tokens simple*
   [COMMA
    ASSIGN
@@ -22,6 +25,8 @@
    [#\* (token-*)]
    [#\/ (token-/)]
    ["let" (token-LET)]
+   [(:seq #\" (:+ (:~ #\")) #\")
+    (token-STRING lexeme)]
    [(:+ (:or (:/ #\a #\z) (:/ #\A #\Z) #\-))
     (token-IDENTIFIER (string->symbol lexeme))]
    [(:+ (:/ #\0 #\9))
