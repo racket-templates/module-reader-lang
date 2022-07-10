@@ -17,12 +17,11 @@
 (define string/p (syntax/p (token/p 'STRING)))
 ; a simple function invokation
 (define funcall/p
-  (syntax/p
-   (do [func <- identifier/p]
-     (token/p 'OPEN-PAREN)
-     [args <- (many/p expression/p #:sep (token/p 'COMMA))]
-     (token/p 'CLOSE-PAREN)
-     (pure (list* func args)))))
+  (do [func <- identifier/p]
+    (token/p 'OPEN-PAREN)
+    [args <- (many/p expression/p #:sep (token/p 'COMMA))]
+    (token/p 'CLOSE-PAREN)
+    (pure #`(#,func #,@args))))
 (define term/p
   (or/p (try/p funcall/p)
         number/p

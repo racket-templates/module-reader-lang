@@ -1,6 +1,8 @@
 #lang racket/base
 (provide (rename-out [lang-module-begin #%module-begin])
-         #%datum)
+         #%datum
+         #%top
+         println)
 (require (for-syntax syntax/parse
                      racket/base))
 

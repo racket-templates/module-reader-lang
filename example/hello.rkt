@@ -8,3 +8,4 @@ let d = 4
 a + c * b - d
 
 "hello, world"
+println(a)
